@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using Newtonsoft.Json;
 using Android.Views;
+using Android.Content;
 
 namespace Background_Youtube_Player
 {
@@ -22,6 +23,11 @@ namespace Background_Youtube_Player
         ListView songListView;
         string tag = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&key=AIzaSyADs8hX9blKmzfBRkVGxLcQhRdMB80qBTc&q=";
 
+        NotificationManager notificationManager;
+        Notification notification;
+        const int notificationId = 0;
+
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -29,6 +35,17 @@ namespace Background_Youtube_Player
             FindViews();
             HandleEvents();
             CreateMediaPlayer();
+        }
+
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+        }
+
+
+        protected override void OnStop()
+        {
+            base.OnStop();
         }
 
         private void HandleEvents()
@@ -52,6 +69,8 @@ namespace Background_Youtube_Player
             toolbar.SetTitle(Resource.String.ToolbarTitle);
 
             toolbar.MenuItemClick += (sender, e) => {
+                if(notificationManager != null)
+                notificationManager.CancelAll();
                 player.Stop();
             };
             songSearchView = FindViewById<SearchView>(Resource.Id.songSearchView);
@@ -65,6 +84,7 @@ namespace Background_Youtube_Player
             var content = await dataService.GetRequestJson(tag + songSearchView.Query);
             var items = JsonConvert.DeserializeObject<Youtube.RootObject>(content);
             dialog.Hide();
+            songSearchView.ClearFocus();
             songListView.Adapter = new VideoAdapter(Application.Context, items.items);
             songListView.ItemClick += async (s, events) => await StartPlayingSong(s, events);
             Window.SetSoftInputMode(SoftInput.StateHidden);
@@ -103,7 +123,9 @@ namespace Background_Youtube_Player
             player.SetDataSource(video.DownloadUrl);
             player.Prepare();
             player.Start();
+            CreateNotification(video);
         }
+
 
         public void GetHttpResponse(string url, VideoInfo video)
         {
@@ -127,5 +149,27 @@ namespace Background_Youtube_Player
             //progressDialog.SetTitle(title);
             return progressDialog;
         }
+
+        private void CreateNotification(VideoInfo video)
+        {
+            notificationManager =
+                GetSystemService(NotificationService) as NotificationManager;
+
+            var intent =
+                this.PackageManager.GetLaunchIntentForPackage(this.PackageName);
+            intent.AddFlags(ActivityFlags.SingleTop);
+
+            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.UpdateCurrent);
+
+            Notification.Builder builder = new Notification.Builder(this)
+            .SetContentTitle("Currently playing:")
+            .SetContentText(video.Title)
+            .SetSmallIcon(Resource.Drawable.ic_play_circle)
+            .SetContentIntent(pendingIntent);
+            notification = builder.Build();
+
+            notificationManager.Notify(notificationId, notification);
+        }
+
     }
 }
