@@ -82,12 +82,34 @@ namespace Background_Youtube_Player
             dialog.Show();
             var dataService = new DataService();
             var content = await dataService.GetRequestJson(tag + songSearchView.Query);
-            var items = JsonConvert.DeserializeObject<Youtube.RootObject>(content);
+
+            var items = await DeserializeObjectAsync(content);
+
             dialog.Hide();
             songSearchView.ClearFocus();
             songListView.Adapter = new VideoAdapter(Application.Context, items.items);
             songListView.ItemClick += async (s, events) => await StartPlayingSong(s, events);
             Window.SetSoftInputMode(SoftInput.StateHidden);
+        }
+
+
+        private Task<Youtube.RootObject> DeserializeObjectAsync(string content)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var items = JsonConvert.DeserializeObject<Youtube.RootObject>(content);
+                return items;
+            });
+        }
+
+        private Task DecryptDownloadUrlAsync(VideoInfo video)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                DownloadUrlResolver.DecryptDownloadUrl(video);
+
+                return Task.FromResult(true);
+            });
         }
 
         private async Task StartPlayingSong(object sender, AdapterView.ItemClickEventArgs e)
@@ -104,7 +126,7 @@ namespace Background_Youtube_Player
             {
                 if (video.RequiresDecryption)
                 {
-                    DownloadUrlResolver.DecryptDownloadUrl(video);
+                    await DecryptDownloadUrlAsync(video);
                     Toast.MakeText(this, "Cannot play this video", ToastLength.Short);
                     GetHttpResponse(video.DownloadUrl, video);
                 }
@@ -127,13 +149,13 @@ namespace Background_Youtube_Player
         }
 
 
-        public void GetHttpResponse(string url, VideoInfo video)
+        public async Task GetHttpResponse(string url, VideoInfo video)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "HEAD";
             try
             {
-                var response = (HttpWebResponse)request.GetResponse();
+                var response = await request.GetResponseAsync();
                 PlaySong(video);
             }
             catch (WebException ex)
