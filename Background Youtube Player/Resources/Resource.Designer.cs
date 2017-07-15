@@ -2423,11 +2423,11 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f0700a2
 			public const int nav_about = 2131165346;
 			
+			// aapt resource value: 0x7f0700a1
+			public const int nav_favorites = 2131165345;
+			
 			// aapt resource value: 0x7f0700a0
 			public const int nav_home = 2131165344;
-			
-			// aapt resource value: 0x7f0700a1
-			public const int nav_messages = 2131165345;
 			
 			// aapt resource value: 0x7f070079
 			public const int navigation_header_container = 2131165305;

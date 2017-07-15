@@ -20,7 +20,7 @@ using Android.Support.V4.View;
 namespace Background_Youtube_Player
 {
     [Activity(Label = "Darkov Youtube Player", MainLauncher = true, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-    public class MainActivity : AppCompatActivity
+    public class HomeActivity : AppCompatActivity
     {
         MediaPlayer player;
         SearchView songSearchView;
@@ -36,13 +36,14 @@ namespace Background_Youtube_Player
         const int notificationId = 0;
 
 
-        protected override void OnCreate(Bundle bundle)
+        protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.Main);
             FindViews();
             HandleEvents();
             CreateMediaPlayer();
+            await SearchForSong(this, null);
         }
 
         protected override void OnRestart()
@@ -59,6 +60,12 @@ namespace Background_Youtube_Player
         private void HandleEvents()
         {
             songSearchView.QueryTextSubmit += async (sender, e) => await SearchForSong(sender, e);
+            songSearchView.Click += SongSearchView_Click;
+        }
+
+        private void SongSearchView_Click(object sender, System.EventArgs e)
+        {
+            songSearchView.Iconified = false;
         }
 
         private void CreateMediaPlayer()
@@ -92,15 +99,23 @@ namespace Background_Youtube_Player
 
             navigationView.NavigationItemSelected += (sender, e) => {
                 e.MenuItem.SetChecked(true);
-                //react to click here and swap fragments or navigate
+
+                switch (e.MenuItem.ItemId)
+                {
+                    case Resource.Id.nav_home:
+                        Toast.MakeText(this, "", ToastLength.Short);
+                        break;
+
+                    case Resource.Id.nav_favorites:
+                        Toast.MakeText(this, "", ToastLength.Short);
+                        break;
+                }
                 drawerLayout.CloseDrawers();
             };
 
-
             songSearchView = FindViewById<SearchView>(Resource.Id.songSearchView);
         }
-
-
+  
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
