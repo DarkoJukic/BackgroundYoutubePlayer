@@ -16,18 +16,21 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.V4.View;
+using Background_Youtube_Player.Code.Services;
 
 namespace Background_Youtube_Player
 {
     [Activity(Label = "Darkov Youtube Player", MainLauncher = true, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class HomeActivity : AppCompatActivity
     {
-        MediaPlayer player;
         SearchView songSearchView;
         Toolbar toolbar;
         Toolbar bottomToolbar;
         DrawerLayout drawerLayout;
         NavigationView navigationView;
+
+        MediaService mediaService = new MediaService();
+
 
         ListView songListView;
         string tag = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&key=AIzaSyADs8hX9blKmzfBRkVGxLcQhRdMB80qBTc&q=";
@@ -43,7 +46,7 @@ namespace Background_Youtube_Player
             SetContentView(Resource.Layout.Main);
             FindViews();
             HandleEvents();
-            CreateMediaPlayer();
+            mediaService.CreateMediaPlayer();
             await SearchForSong(this, null);
         }
 
@@ -69,13 +72,7 @@ namespace Background_Youtube_Player
             songSearchView.Iconified = false;
         }
 
-        private void CreateMediaPlayer()
-        {
-            if (player == null)
-            {
-                player = new MediaPlayer();
-            }
-        }
+
 
         protected void FindViews()
         {
@@ -128,7 +125,7 @@ namespace Background_Youtube_Player
             {
                 if (notificationManager != null)
                     notificationManager.CancelAll();
-                player.Stop();
+                mediaService.StopMediaPlayer();
             };
             return base.OnPrepareOptionsMenu(menu);
         }
@@ -218,11 +215,7 @@ namespace Background_Youtube_Player
 
         private void PlaySong(VideoInfo video)
         {
-            player.Stop();
-            player.Reset();
-            player.SetDataSource(video.DownloadUrl);
-            player.Prepare();
-            player.Start();
+            mediaService.StartPlayingNewSong(video.DownloadUrl);
             CreateNotification(video);
         }
 

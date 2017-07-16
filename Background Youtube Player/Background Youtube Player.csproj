@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Services\DataService.cs" />
+    <Compile Include="Code\Services\MediaService.cs" />
     <Compile Include="HomeActivity.cs" />
     <Compile Include="Resources\model\Youtube.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
