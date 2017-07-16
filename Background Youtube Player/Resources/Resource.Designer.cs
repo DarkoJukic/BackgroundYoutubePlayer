@@ -2108,52 +2108,55 @@ namespace Background_Youtube_Player
 			public const int ic_play_circle = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int ic_star_black = 2130837600;
+			public const int ic_settings_black = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int ic_stop = 2130837601;
+			public const int ic_star_black = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int Icon = 2130837602;
+			public const int ic_stop = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int navigation_empty_icon = 2130837603;
+			public const int Icon = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int notification_action_background = 2130837604;
+			public const int navigation_empty_icon = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int notification_bg = 2130837605;
+			public const int notification_action_background = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int notification_bg_low = 2130837606;
+			public const int notification_bg = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int notification_bg_low_normal = 2130837607;
+			public const int notification_bg_low = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int notification_bg_low_pressed = 2130837608;
+			public const int notification_bg_low_normal = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int notification_bg_normal = 2130837609;
+			public const int notification_bg_low_pressed = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int notification_bg_normal_pressed = 2130837610;
+			public const int notification_bg_normal = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int notification_icon_background = 2130837611;
-			
-			// aapt resource value: 0x7f02006e
-			public const int notification_template_icon_bg = 2130837614;
-			
-			// aapt resource value: 0x7f02006f
-			public const int notification_template_icon_low_bg = 2130837615;
+			public const int notification_bg_normal_pressed = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int notification_tile_bg = 2130837612;
+			public const int notification_icon_background = 2130837612;
+			
+			// aapt resource value: 0x7f02006f
+			public const int notification_template_icon_bg = 2130837615;
+			
+			// aapt resource value: 0x7f020070
+			public const int notification_template_icon_low_bg = 2130837616;
 			
 			// aapt resource value: 0x7f02006d
-			public const int notify_panel_notification_icon_bg = 2130837613;
+			public const int notification_tile_bg = 2130837613;
+			
+			// aapt resource value: 0x7f02006e
+			public const int notify_panel_notification_icon_bg = 2130837614;
 			
 			static Drawable()
 			{
@@ -2168,8 +2171,8 @@ namespace Background_Youtube_Player
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f07009d
-			public const int ChannelTitle = 2131165341;
+			// aapt resource value: 0x7f07009e
+			public const int ChannelTitle = 2131165342;
 			
 			// aapt resource value: 0x7f070081
 			public const int DrawerLayout = 2131165313;
@@ -2177,11 +2180,11 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f070083
 			public const int NavigationView = 2131165315;
 			
-			// aapt resource value: 0x7f07009b
-			public const int Thumbnail = 2131165339;
-			
 			// aapt resource value: 0x7f07009c
-			public const int Title = 2131165340;
+			public const int Thumbnail = 2131165340;
+			
+			// aapt resource value: 0x7f07009d
+			public const int Title = 2131165341;
 			
 			// aapt resource value: 0x7f070087
 			public const int action0 = 2131165319;
@@ -2405,17 +2408,17 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f070048
 			public const int list_item = 2131165256;
 			
-			// aapt resource value: 0x7f07009f
-			public const int masked = 2131165343;
+			// aapt resource value: 0x7f0700a0
+			public const int masked = 2131165344;
 			
 			// aapt resource value: 0x7f07008a
 			public const int media_actions = 2131165322;
 			
-			// aapt resource value: 0x7f0700a0
-			public const int menu_addToFavorites = 2131165344;
-			
 			// aapt resource value: 0x7f0700a1
-			public const int menu_stop = 2131165345;
+			public const int menu_addToFavorites = 2131165345;
+			
+			// aapt resource value: 0x7f0700a2
+			public const int menu_stop = 2131165346;
 			
 			// aapt resource value: 0x7f070022
 			public const int middle = 2131165218;
@@ -2426,14 +2429,17 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f07001a
 			public const int multiply = 2131165210;
 			
+			// aapt resource value: 0x7f0700a6
+			public const int nav_about = 2131165350;
+			
 			// aapt resource value: 0x7f0700a4
-			public const int nav_about = 2131165348;
+			public const int nav_favorites = 2131165348;
 			
 			// aapt resource value: 0x7f0700a3
-			public const int nav_favorites = 2131165347;
+			public const int nav_home = 2131165347;
 			
-			// aapt resource value: 0x7f0700a2
-			public const int nav_home = 2131165346;
+			// aapt resource value: 0x7f0700a5
+			public const int nav_settings = 2131165349;
 			
 			// aapt resource value: 0x7f070079
 			public const int navigation_header_container = 2131165305;
@@ -2585,8 +2591,8 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f070089
 			public const int status_bar_latest_event_content = 2131165321;
 			
-			// aapt resource value: 0x7f0700a5
-			public const int stop = 2131165349;
+			// aapt resource value: 0x7f0700a7
+			public const int stop = 2131165351;
 			
 			// aapt resource value: 0x7f07005e
 			public const int submenuarrow = 2131165278;
@@ -2654,11 +2660,14 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f070018
 			public const int useLogo = 2131165208;
 			
+			// aapt resource value: 0x7f07009b
+			public const int videoView = 2131165339;
+			
 			// aapt resource value: 0x7f07000e
 			public const int view_offset_helper = 2131165198;
 			
-			// aapt resource value: 0x7f07009e
-			public const int visible = 2131165342;
+			// aapt resource value: 0x7f07009f
+			public const int visible = 2131165343;
 			
 			// aapt resource value: 0x7f070027
 			public const int withText = 2131165223;
@@ -2843,7 +2852,7 @@ namespace Background_Youtube_Player
 			public const int design_text_input_password_icon = 2130903080;
 			
 			// aapt resource value: 0x7f030029
-			public const int Main = 2130903081;
+			public const int Home = 2130903081;
 			
 			// aapt resource value: 0x7f03002a
 			public const int notification_action = 2130903082;
@@ -2900,10 +2909,16 @@ namespace Background_Youtube_Player
 			public const int select_dialog_singlechoice_material = 2130903099;
 			
 			// aapt resource value: 0x7f03003c
-			public const int SongListItemLayout = 2130903100;
+			public const int Settings = 2130903100;
 			
 			// aapt resource value: 0x7f03003d
-			public const int support_simple_spinner_dropdown_item = 2130903101;
+			public const int Song = 2130903101;
+			
+			// aapt resource value: 0x7f03003e
+			public const int SongListItemLayout = 2130903102;
+			
+			// aapt resource value: 0x7f03003f
+			public const int support_simple_spinner_dropdown_item = 2130903103;
 			
 			static Layout()
 			{

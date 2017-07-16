@@ -18,6 +18,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V4.View;
 using Background_Youtube_Player.Code.Services;
 using Background_Youtube_Player.Code.Helpers;
+using Background_Youtube_Player.Code.Settings;
 
 namespace Background_Youtube_Player
 {
@@ -43,10 +44,9 @@ namespace Background_Youtube_Player
         protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.Main);
+            SetContentView(Resource.Layout.Home);
             FindViews();
             HandleEvents();
-            mediaService.CreateMediaPlayer();
             await SearchForSong(this, null);
         }
 
@@ -110,6 +110,11 @@ namespace Background_Youtube_Player
                     case Resource.Id.nav_favorites:
                         Toast.MakeText(this, "", ToastLength.Short);
                         break;
+
+                    case Resource.Id.nav_settings:
+                        StartActivity(typeof(SettingsActivity));
+                        break;
+
                 }
                 drawerLayout.CloseDrawers();
             };
@@ -175,15 +180,6 @@ namespace Background_Youtube_Player
             });
         }
 
-        private Task DecryptDownloadUrlAsync(VideoInfo video)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                DownloadUrlResolver.DecryptDownloadUrl(video);
-
-                return Task.FromResult(true);
-            });
-        }
 
         private async Task StartPlayingSong(object sender, AdapterView.ItemClickEventArgs e)
         {
@@ -193,22 +189,20 @@ namespace Background_Youtube_Player
             var id = adapter[e.Position].id.videoId;
             string link = "https://www.youtube.com/watch?v=" + id;
 
-            IEnumerable<VideoInfo> videosInfors = await DownloadUrlResolver.GetDownloadUrlsAsync(link, false);
-            VideoInfo video = videosInfors.FirstOrDefault(infor => infor.AudioType == AudioType.Aac);
-            if (video != null)
-            {
-                if (video.RequiresDecryption)
-                {
-                    await DecryptDownloadUrlAsync(video);
-                    Toast.MakeText(this, "Cannot play this video", ToastLength.Short);
-                    await GetHttpResponse(video.DownloadUrl, video);
-                }
-                else
-                {
-                    await PlaySong(video);
-                }
-                dialog.Hide();
-            }
+            mediaService.CreateMediaPlayer();
+            var video = await VideoHelper.ResolveDownloadUrls(link);
+            await Play(video);
+
+
+            //var songActivity = new Intent(this, typeof(SongActivity));
+            //songActivity.PutExtra("link", link);
+            //StartActivity(songActivity);
+            dialog.Hide();
+        }
+
+        public async Task Play(VideoInfo video)
+        {
+            await PlaySong(video);
         }
 
         private async Task PlaySong(VideoInfo video)
@@ -236,22 +230,6 @@ namespace Background_Youtube_Player
             notification = builder.Build();
 
             notificationManager.Notify(notificationId, notification);
-        }
-
-
-        public async Task GetHttpResponse(string url, VideoInfo video)
-        {
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "HEAD";
-            try
-            {
-                var response = await request.GetResponseAsync();
-                await PlaySong(video);
-            }
-            catch (WebException ex)
-            {
-                Toast.MakeText(this, "Cannot play this video" + ex.Status, ToastLength.Short);
-            }
         }
     }
 }
