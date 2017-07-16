@@ -17,6 +17,7 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.V4.View;
 using Background_Youtube_Player.Code.Services;
+using Background_Youtube_Player.Code.Helpers;
 
 namespace Background_Youtube_Player
 {
@@ -29,16 +30,15 @@ namespace Background_Youtube_Player
         DrawerLayout drawerLayout;
         NavigationView navigationView;
 
+        NotificationManager notificationManager;
+        Notification notification;
+        const int notificationId = 0;
+
         MediaService mediaService = new MediaService();
 
 
         ListView songListView;
         string tag = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&key=AIzaSyADs8hX9blKmzfBRkVGxLcQhRdMB80qBTc&q=";
-
-        NotificationManager notificationManager;
-        Notification notification;
-        const int notificationId = 0;
-
 
         protected override async void OnCreate(Bundle bundle)
         {
@@ -146,18 +146,16 @@ namespace Background_Youtube_Player
                         drawerLayout.CloseDrawer(GravityCompat.Start);
                         return true;
                     }
-
             }
             return base.OnOptionsItemSelected(item);
         }
 
         private async Task SearchForSong(object sender, SearchView.QueryTextSubmitEventArgs e)
         {
-            var dialog = MakeProgressDialog("Searching...");
+            var dialog = DisplayHelper.MakeProgressDialog(this, "Searching...");
             dialog.Show();
             var dataService = new DataService();
             var content = await dataService.GetRequestJson(tag + songSearchView.Query);
-
             var items = await DeserializeObjectAsync(content);
 
             dialog.Hide();
@@ -189,7 +187,7 @@ namespace Background_Youtube_Player
 
         private async Task StartPlayingSong(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var dialog = MakeProgressDialog("Wait...");
+            var dialog = DisplayHelper.MakeProgressDialog(this, "Wait...");
             dialog.Show();
             var adapter = songListView.Adapter as VideoAdapter;
             var id = adapter[e.Position].id.videoId;
@@ -207,43 +205,19 @@ namespace Background_Youtube_Player
                 }
                 else
                 {
-                    PlaySong(video);
+                    await PlaySong(video);
                 }
                 dialog.Hide();
             }
         }
 
-        private void PlaySong(VideoInfo video)
+        private async Task PlaySong(VideoInfo video)
         {
-            mediaService.StartPlayingNewSong(video.DownloadUrl);
+            await mediaService.StartPlayingSong(video.DownloadUrl);
             CreateNotification(video);
         }
 
-
-        public async Task GetHttpResponse(string url, VideoInfo video)
-        {
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "HEAD";
-            try
-            {
-                var response = await request.GetResponseAsync();
-                PlaySong(video);
-            }
-            catch (WebException ex)
-            {
-                Toast.MakeText(this, "Cannot play this video" + ex.Status, ToastLength.Short);
-            }
-        }
-
-        private ProgressDialog MakeProgressDialog(string title)
-        {
-            var progressDialog = new ProgressDialog(this);
-            progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
-            //progressDialog.SetTitle(title);
-            return progressDialog;
-        }
-
-        private void CreateNotification(VideoInfo video)
+        public void CreateNotification(VideoInfo video)
         {
             notificationManager =
                 GetSystemService(NotificationService) as NotificationManager;
@@ -264,5 +238,20 @@ namespace Background_Youtube_Player
             notificationManager.Notify(notificationId, notification);
         }
 
+
+        public async Task GetHttpResponse(string url, VideoInfo video)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "HEAD";
+            try
+            {
+                var response = await request.GetResponseAsync();
+                await PlaySong(video);
+            }
+            catch (WebException ex)
+            {
+                Toast.MakeText(this, "Cannot play this video" + ex.Status, ToastLength.Short);
+            }
+        }
     }
 }

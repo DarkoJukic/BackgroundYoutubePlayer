@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Media;
+using System.Threading.Tasks;
 
 namespace Background_Youtube_Player.Code.Services
 {
@@ -30,14 +31,13 @@ namespace Background_Youtube_Player.Code.Services
             player.Stop();
         }
 
-        public void StartPlayingNewSong(string DownloadUrl)
+        public async Task StartPlayingSong(string DownloadUrl)
         {
             player.Stop();
             player.Reset();
-            player.SetDataSource(DownloadUrl);
+            await player.SetDataSourceAsync(DownloadUrl);
             player.Prepare();
             player.Start();
         }
-
     }
 }

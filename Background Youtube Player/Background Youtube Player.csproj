@@ -115,6 +115,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Helpers\DisplayHelper.cs" />
     <Compile Include="Code\Services\DataService.cs" />
     <Compile Include="Code\Services\MediaService.cs" />
     <Compile Include="HomeActivity.cs" />
@@ -223,9 +224,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_info.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Code\Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidResource Include="Resources\menu\bottom_menu.xml" />
   </ItemGroup>
