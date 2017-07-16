@@ -2411,6 +2411,12 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f07008a
 			public const int media_actions = 2131165322;
 			
+			// aapt resource value: 0x7f0700a0
+			public const int menu_addToFavorites = 2131165344;
+			
+			// aapt resource value: 0x7f0700a1
+			public const int menu_stop = 2131165345;
+			
 			// aapt resource value: 0x7f070022
 			public const int middle = 2131165218;
 			
@@ -2420,14 +2426,14 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f07001a
 			public const int multiply = 2131165210;
 			
+			// aapt resource value: 0x7f0700a4
+			public const int nav_about = 2131165348;
+			
+			// aapt resource value: 0x7f0700a3
+			public const int nav_favorites = 2131165347;
+			
 			// aapt resource value: 0x7f0700a2
-			public const int nav_about = 2131165346;
-			
-			// aapt resource value: 0x7f0700a1
-			public const int nav_favorites = 2131165345;
-			
-			// aapt resource value: 0x7f0700a0
-			public const int nav_home = 2131165344;
+			public const int nav_home = 2131165346;
 			
 			// aapt resource value: 0x7f070079
 			public const int navigation_header_container = 2131165305;
@@ -2579,8 +2585,8 @@ namespace Background_Youtube_Player
 			// aapt resource value: 0x7f070089
 			public const int status_bar_latest_event_content = 2131165321;
 			
-			// aapt resource value: 0x7f0700a3
-			public const int stop = 2131165347;
+			// aapt resource value: 0x7f0700a5
+			public const int stop = 2131165349;
 			
 			// aapt resource value: 0x7f07005e
 			public const int submenuarrow = 2131165278;
@@ -2913,10 +2919,13 @@ namespace Background_Youtube_Player
 		{
 			
 			// aapt resource value: 0x7f0d0000
-			public const int drawer_menu = 2131558400;
+			public const int bottom_menu = 2131558400;
 			
 			// aapt resource value: 0x7f0d0001
-			public const int toolbar_menu = 2131558401;
+			public const int drawer_menu = 2131558401;
+			
+			// aapt resource value: 0x7f0d0002
+			public const int toolbar_menu = 2131558402;
 			
 			static Menu()
 			{

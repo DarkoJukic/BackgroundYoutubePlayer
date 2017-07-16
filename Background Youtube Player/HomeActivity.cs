@@ -25,6 +25,7 @@ namespace Background_Youtube_Player
         MediaPlayer player;
         SearchView songSearchView;
         Toolbar toolbar;
+        Toolbar bottomToolbar;
         DrawerLayout drawerLayout;
         NavigationView navigationView;
 
@@ -78,26 +79,29 @@ namespace Background_Youtube_Player
 
         protected void FindViews()
         {
+
+
+            //bottomToolbar = FindViewById<Toolbar>(Resource.Id.toolbar_bottom);
+            //bottomToolbar.Title = "Song";
+            //bottomToolbar.InflateMenu(Resource.Menu.bottom_menu);
+            //bottomToolbar.MenuItemClick += (sender, e) => {
+            //    Toast.MakeText(this, "Bottom toolbar tapped: " + e.Item.TitleFormatted, ToastLength.Short).Show();
+            //};
+
             songListView = FindViewById<ListView>(Resource.Id.resultsListView);
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            toolbar.InflateMenu(Resource.Menu.toolbar_menu);
             toolbar.SetTitle(Resource.String.ToolbarTitle);
+
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.DrawerLayout);
             navigationView = FindViewById<NavigationView>(Resource.Id.NavigationView);
             navigationView.SetCheckedItem(Resource.Id.nav_home);
-
-            toolbar.MenuItemClick += (sender, e) => {
-                if(notificationManager != null)
-                notificationManager.CancelAll();
-                player.Stop();
-            };
-
             SetSupportActionBar(toolbar);
 
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 
-            navigationView.NavigationItemSelected += (sender, e) => {
+            navigationView.NavigationItemSelected += (sender, e) =>
+            {
                 e.MenuItem.SetChecked(true);
 
                 switch (e.MenuItem.ItemId)
@@ -115,7 +119,20 @@ namespace Background_Youtube_Player
 
             songSearchView = FindViewById<SearchView>(Resource.Id.songSearchView);
         }
-  
+
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            toolbar.InflateMenu(Resource.Menu.toolbar_menu);
+            toolbar.MenuItemClick += (sender, e) =>
+            {
+                if (notificationManager != null)
+                    notificationManager.CancelAll();
+                player.Stop();
+            };
+            return base.OnPrepareOptionsMenu(menu);
+        }
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
