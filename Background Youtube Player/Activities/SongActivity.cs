@@ -20,7 +20,7 @@ using Background_Youtube_Player.Code.Helpers;
 namespace Background_Youtube_Player
 {
     [Activity(Label = "SongActivity")]
-    public class SongActivity : AppCompatActivity
+    public class SongActivity : BaseActivity
     {
         VideoView videoView;
         MediaService mediaService = new MediaService();

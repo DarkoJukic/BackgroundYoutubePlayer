@@ -23,12 +23,11 @@ using Background_Youtube_Player.Code.Settings;
 namespace Background_Youtube_Player
 {
     [Activity(Label = "Darkov Youtube Player", MainLauncher = true, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-    public class HomeActivity : AppCompatActivity
+    public class HomeActivity : BaseActivity
     {
         SearchView songSearchView;
         Toolbar toolbar;
         Toolbar bottomToolbar;
-        DrawerLayout drawerLayout;
         NavigationView navigationView;
 
         NotificationManager notificationManager;
@@ -36,7 +35,6 @@ namespace Background_Youtube_Player
         const int notificationId = 0;
 
         MediaService mediaService = new MediaService();
-
 
         ListView songListView;
         string tag = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&key=AIzaSyADs8hX9blKmzfBRkVGxLcQhRdMB80qBTc&q=";
@@ -97,31 +95,10 @@ namespace Background_Youtube_Player
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 
-            navigationView.NavigationItemSelected += (sender, e) =>
-            {
-                e.MenuItem.SetChecked(true);
-
-                switch (e.MenuItem.ItemId)
-                {
-                    case Resource.Id.nav_home:
-                        Toast.MakeText(this, "", ToastLength.Short);
-                        break;
-
-                    case Resource.Id.nav_favorites:
-                        Toast.MakeText(this, "", ToastLength.Short);
-                        break;
-
-                    case Resource.Id.nav_settings:
-                        StartActivity(typeof(SettingsActivity));
-                        break;
-
-                }
-                drawerLayout.CloseDrawers();
-            };
+            navigationView.NavigationItemSelected += NavigationView_NavigationItemSelected;
 
             songSearchView = FindViewById<SearchView>(Resource.Id.songSearchView);
         }
-
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -133,26 +110,6 @@ namespace Background_Youtube_Player
                 mediaService.StopMediaPlayer();
             };
             return base.OnPrepareOptionsMenu(menu);
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            switch (item.ItemId)
-            {
-                case Android.Resource.Id.Home:
-
-                    if (!drawerLayout.IsDrawerOpen(GravityCompat.Start))
-                    {
-                        drawerLayout.OpenDrawer(GravityCompat.Start);
-                        return true;
-                    }
-                    else
-                    {
-                        drawerLayout.CloseDrawer(GravityCompat.Start);
-                        return true;
-                    }
-            }
-            return base.OnOptionsItemSelected(item);
         }
 
         private async Task SearchForSong(object sender, SearchView.QueryTextSubmitEventArgs e)
@@ -169,7 +126,6 @@ namespace Background_Youtube_Player
             songListView.ItemClick += async (s, events) => await StartPlayingSong(s, events);
             Window.SetSoftInputMode(SoftInput.StateHidden);
         }
-
 
         private Task<Youtube.RootObject> DeserializeObjectAsync(string content)
         {

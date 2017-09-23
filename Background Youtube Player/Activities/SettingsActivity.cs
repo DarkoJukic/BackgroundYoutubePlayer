@@ -19,7 +19,7 @@ namespace Background_Youtube_Player
 {
 
     [Activity(Label = "Settings")]
-    public class SettingsActivity : AppCompatActivity
+    public class SettingsActivity : BaseActivity
     {
         Toolbar toolbar;
         Toolbar bottomToolbar;

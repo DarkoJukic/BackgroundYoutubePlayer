@@ -38,7 +38,18 @@ namespace Background_Youtube_Player.Code.Helpers
         public static async Task<VideoInfo> ResolveDownloadUrls(string link)
         {
             IEnumerable<VideoInfo> videosInfors = await DownloadUrlResolver.GetDownloadUrlsAsync(link, false);
-            VideoInfo video = videosInfors.FirstOrDefault(infor => infor.AudioType == AudioType.Aac);
+            VideoInfo video = videosInfors.FirstOrDefault(infor => (infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3) && infor.Resolution == 144 );
+
+            if (video == null)
+            {
+                video = videosInfors.FirstOrDefault(infor => (infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3) && infor.Resolution == 240);
+            }
+
+            if (video == null)
+            {
+                video = videosInfors.FirstOrDefault(infor => infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3);
+            }
+
             if (video != null)
             {
                 if (video.RequiresDecryption)
@@ -50,6 +61,5 @@ namespace Background_Youtube_Player.Code.Helpers
             }
             return video;
         }
-
     }
 }
