@@ -23,5 +23,18 @@ namespace Background_Youtube_Player.Code.Helpers
             //progressDialog.SetTitle(title);
             return progressDialog;
         }
+
+        public void AlertUserOfError(string message, Android.Content.Context context)
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+            alert.SetTitle("Error");
+            alert.SetMessage(message);
+            alert.SetPositiveButton("Ok", (senderAlert, args) => {
+            });
+
+            Dialog dialog = alert.Create();
+            dialog.Show();
+        }
+
     }
 }

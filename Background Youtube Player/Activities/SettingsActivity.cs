@@ -23,7 +23,6 @@ namespace Background_Youtube_Player
     {
         Toolbar toolbar;
         Toolbar bottomToolbar;
-        DrawerLayout drawerLayout;
         NavigationView navigationView;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -31,6 +30,7 @@ namespace Background_Youtube_Player
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Settings);
             FindViews();
+            HandleEvents();
         }
 
         public void FindViews()
@@ -46,47 +46,11 @@ namespace Background_Youtube_Player
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.Title = "Settings";
-
-            navigationView.NavigationItemSelected += (sender, e) =>
-            {
-                e.MenuItem.SetChecked(true);
-
-                switch (e.MenuItem.ItemId)
-                {
-                    case Resource.Id.nav_home:
-                        StartActivity(typeof(HomeActivity));
-                        break;
-
-                    case Resource.Id.nav_favorites:
-                        Toast.MakeText(this, "", ToastLength.Short);
-                        break;
-
-                    case Resource.Id.nav_settings:
-                        StartActivity(typeof(SettingsActivity));
-                        break;
-
-                }
-            };
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
+        private void HandleEvents()
         {
-            switch (item.ItemId)
-            {
-                case Android.Resource.Id.Home:
-
-                    if (!drawerLayout.IsDrawerOpen(GravityCompat.Start))
-                    {
-                        drawerLayout.OpenDrawer(GravityCompat.Start);
-                        return true;
-                    }
-                    else
-                    {
-                        drawerLayout.CloseDrawer(GravityCompat.Start);
-                        return true;
-                    }
-            }
-            return base.OnOptionsItemSelected(item);
+            navigationView.NavigationItemSelected += NavigationView_NavigationItemSelected;
         }
 
     }

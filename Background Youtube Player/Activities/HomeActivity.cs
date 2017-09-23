@@ -1,24 +1,17 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using Android.Media;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using YoutubeExtractor;
 using Background_Youtube_Player.Resources.model;
-using System.Linq;
-using System.Net;
 using Newtonsoft.Json;
 using Android.Views;
 using Android.Content;
-using Android.Support.V7.App;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
-using Android.Support.V4.View;
 using Background_Youtube_Player.Code.Services;
 using Background_Youtube_Player.Code.Helpers;
-using Background_Youtube_Player.Code.Settings;
 
 namespace Background_Youtube_Player
 {
@@ -27,14 +20,15 @@ namespace Background_Youtube_Player
     {
         SearchView songSearchView;
         Toolbar toolbar;
-        Toolbar bottomToolbar;
         NavigationView navigationView;
 
         NotificationManager notificationManager;
         Notification notification;
         const int notificationId = 0;
 
-        MediaService mediaService = new MediaService();
+        MediaService MediaService = new MediaService();
+        VideoHelper VideoHelper = new VideoHelper();
+
 
         ListView songListView;
         string tag = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&key=AIzaSyADs8hX9blKmzfBRkVGxLcQhRdMB80qBTc&q=";
@@ -70,19 +64,8 @@ namespace Background_Youtube_Player
             songSearchView.Iconified = false;
         }
 
-
-
         protected void FindViews()
         {
-
-
-            //bottomToolbar = FindViewById<Toolbar>(Resource.Id.toolbar_bottom);
-            //bottomToolbar.Title = "Song";
-            //bottomToolbar.InflateMenu(Resource.Menu.bottom_menu);
-            //bottomToolbar.MenuItemClick += (sender, e) => {
-            //    Toast.MakeText(this, "Bottom toolbar tapped: " + e.Item.TitleFormatted, ToastLength.Short).Show();
-            //};
-
             songListView = FindViewById<ListView>(Resource.Id.resultsListView);
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             toolbar.SetTitle(Resource.String.ToolbarTitle);
@@ -107,7 +90,7 @@ namespace Background_Youtube_Player
             {
                 if (notificationManager != null)
                     notificationManager.CancelAll();
-                mediaService.StopMediaPlayer();
+                MediaService.StopMediaPlayer();
             };
             return base.OnPrepareOptionsMenu(menu);
         }
@@ -117,7 +100,7 @@ namespace Background_Youtube_Player
             var dialog = DisplayHelper.MakeProgressDialog(this, "Searching...");
             dialog.Show();
             var dataService = new DataService();
-            var content = await dataService.GetRequestJson(tag + songSearchView.Query);
+            var content = await dataService.GetRequestJson(tag + "Shortest video");
             var items = await DeserializeObjectAsync(content);
 
             dialog.Hide();
@@ -145,8 +128,10 @@ namespace Background_Youtube_Player
             var id = adapter[e.Position].id.videoId;
             string link = "https://www.youtube.com/watch?v=" + id;
 
-            mediaService.CreateMediaPlayer();
-            var video = await VideoHelper.ResolveDownloadUrls(link);
+            var x = this;
+
+            MediaService.CreateMediaPlayer();
+            var video = await VideoHelper.ResolveDownloadUrls(link, this);
             await Play(video);
 
 
@@ -158,12 +143,15 @@ namespace Background_Youtube_Player
 
         public async Task Play(VideoInfo video)
         {
-            await PlaySong(video);
+            if (video != null)
+            {
+                await PlaySong(video);
+            }
         }
 
         private async Task PlaySong(VideoInfo video)
         {
-            await mediaService.StartPlayingSong(video.DownloadUrl);
+            await MediaService.StartPlayingSong(video.DownloadUrl);
             CreateNotification(video);
         }
 

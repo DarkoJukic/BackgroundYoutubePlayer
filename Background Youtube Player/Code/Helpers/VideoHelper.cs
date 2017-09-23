@@ -1,31 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using System.Threading.Tasks;
 using YoutubeExtractor;
 using System.Net;
-using Background_Youtube_Player.Code.Settings;
 
 namespace Background_Youtube_Player.Code.Helpers
 {
-    public static class VideoHelper
+    public class VideoHelper
     {
-        public static async Task<WebResponse> GetHttpResponse(string url, VideoInfo video)
+        public async Task<WebResponse> GetHttpResponse(string url, VideoInfo video)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "HEAD";
             return await request.GetResponseAsync();
         }
 
-        public static Task DecryptDownloadUrlAsync(VideoInfo video)
+        public Task DecryptDownloadUrlAsync(VideoInfo video)
         {
             return Task.Factory.StartNew(() =>
             {
@@ -35,9 +29,20 @@ namespace Background_Youtube_Player.Code.Helpers
             });
         }
 
-        public static async Task<VideoInfo> ResolveDownloadUrls(string link)
+        public async Task<VideoInfo> ResolveDownloadUrls(string link, Android.Content.Context context)
         {
-            IEnumerable<VideoInfo> videosInfors = await DownloadUrlResolver.GetDownloadUrlsAsync(link, false);
+            IEnumerable<VideoInfo> videosInfors = new List<VideoInfo>();
+            try
+            {
+                 videosInfors = await DownloadUrlResolver.GetDownloadUrlsAsync(link, true);
+            }
+            catch (Exception ex)
+            {
+                var displayHelper = new DisplayHelper();
+                displayHelper.AlertUserOfError(ex.Message, context);
+                Toast.MakeText(context, "Cannot play this video", ToastLength.Short);
+            }
+
             VideoInfo video = videosInfors.FirstOrDefault(infor => (infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3) && infor.Resolution == 144 );
 
             if (video == null)
@@ -54,9 +59,8 @@ namespace Background_Youtube_Player.Code.Helpers
             {
                 if (video.RequiresDecryption)
                 {
-                    await VideoHelper.DecryptDownloadUrlAsync(video);
-                    //Toast.MakeText(this, "Cannot play this video", ToastLength.Short);
-                    var response = await VideoHelper.GetHttpResponse(video.DownloadUrl, video);
+                    await this.DecryptDownloadUrlAsync(video);
+                    var response = await this.GetHttpResponse(video.DownloadUrl, video);
                 }
             }
             return video;

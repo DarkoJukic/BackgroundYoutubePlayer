@@ -24,6 +24,9 @@ namespace Background_Youtube_Player
     {
         VideoView videoView;
         MediaService mediaService = new MediaService();
+
+        VideoHelper VideoHelper = new VideoHelper();
+
         string link;
 
         NotificationManager notificationManager;
@@ -37,7 +40,7 @@ namespace Background_Youtube_Player
             SetContentView(Resource.Layout.Song);
             FindViews();
             mediaService.CreateMediaPlayer();
-            var video = await VideoHelper.ResolveDownloadUrls(link);
+            var video = await VideoHelper.ResolveDownloadUrls(link, this);
         }
 
         public void FindViews()
