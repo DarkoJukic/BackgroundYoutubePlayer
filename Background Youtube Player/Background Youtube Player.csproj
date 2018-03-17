@@ -116,21 +116,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\BaseActivity.cs" />
+    <Compile Include="Code\Constants.cs" />
     <Compile Include="Code\Data\FavoriteVideos.cs" />
     <Compile Include="Code\Helpers\VideoHelper.cs" />
-    <Compile Include="Code\Services\BackgroundService.cs" />
     <Compile Include="Code\Settings\AppSettings.cs" />
     <Compile Include="Code\Helpers\DisplayHelper.cs" />
     <Compile Include="Code\Services\DataService.cs" />
     <Compile Include="Code\Services\MediaService.cs" />
-    <Compile Include="Activities\HomeActivity.cs" />
-    <Compile Include="Activities\FavoritesActivity.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Resources\model\Youtube.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Code\Adapters\VideoAdapter.cs" />
-    <Compile Include="Activities\SettingsActivity.cs" />
-    <Compile Include="Activities\SongActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -143,12 +140,9 @@
     <AndroidResource Include="Resources\layout\Song.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\Settings.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\Home.axml">
+    <AndroidResource Include="Resources\layout\Main.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

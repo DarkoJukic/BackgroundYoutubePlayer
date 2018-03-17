@@ -14,21 +14,21 @@ using FFImageLoading.Views;
 
 namespace Background_Youtube_Player
 {
-    public class VideoAdapter : BaseAdapter<Resources.model.Youtube.Item>
+    public class VideoAdapter : BaseAdapter<Resources.Model.Youtube.Item>
 
     {
         LayoutInflater inflater;
 
-        public List<Resources.model.Youtube.Item> video { get; set; }
+        public List<Resources.Model.Youtube.Item> video { get; set; }
 
-        public VideoAdapter(Context context, List<Resources.model.Youtube.Item> videos)
+        public VideoAdapter(Context context, List<Resources.Model.Youtube.Item> videos)
         {
             inflater = LayoutInflater.FromContext(context);
             video = videos;
         }
 
 
-        public override Resources.model.Youtube.Item this[int index]
+        public override Resources.Model.Youtube.Item this[int index]
         {
             get { return video[index]; }
         }

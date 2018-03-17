@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using YoutubeExtractor;
-using Background_Youtube_Player.Resources.model;
+using Background_Youtube_Player.Resources.Model;
 
 namespace Background_Youtube_Player.Code.Data
 {

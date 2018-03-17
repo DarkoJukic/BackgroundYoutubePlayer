@@ -14,6 +14,9 @@ namespace Background_Youtube_Player.Code
 {
     public static class Constants
     {
+        public static string YoutubeBaseUrl = "https://www.youtube.com/watch?v=";
         public static string ApiKey = "AIzaSyADs8hX9blKmzfBRkVGxLcQhRdMB80qBTc";
+        public static string Tag = $"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&key={ApiKey}&q=";
+
     }
 }

@@ -1,28 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
-namespace Background_Youtube_Player.Resources.model
+namespace Background_Youtube_Player.Resources.Model
 {
     public class Youtube
-
     {
         public class PageInfo
-
         {
             public int totalResults { get; set; }
             public int resultsPerPage { get; set; }
         }
-
-
 
         public class Id
         {
@@ -30,29 +16,20 @@ namespace Background_Youtube_Player.Resources.model
             public string videoId { get; set; }
         }
 
-
-
         public class Default
-
         {
             public string url { get; set; }
         }
-
-
 
         public class Medium
         {
             public string url { get; set; }
         }
 
-
-
         public class High
         {
             public string url { get; set; }
         }
-
-
 
         public class Thumbnails
         {
@@ -60,8 +37,6 @@ namespace Background_Youtube_Player.Resources.model
             public Medium medium { get; set; }
             public High high { get; set; }
         }
-
-
 
         public class Snippet
         {
@@ -74,8 +49,6 @@ namespace Background_Youtube_Player.Resources.model
             public string liveBroadcastContent { get; set; }
         }
 
-
-
         public class Item
         {
             public string kind { get; set; }
@@ -83,8 +56,6 @@ namespace Background_Youtube_Player.Resources.model
             public Id id { get; set; }
             public Snippet snippet { get; set; }
         }
-
-
 
         public class RootObject
         {

@@ -24,7 +24,7 @@ namespace Background_Youtube_Player.Code.Helpers
             return progressDialog;
         }
 
-        public void AlertUserOfError(string message, Android.Content.Context context)
+        public void AlertUserOfError(string message, Context context)
         {
             AlertDialog.Builder alert = new AlertDialog.Builder(context);
             alert.SetTitle("Error");
