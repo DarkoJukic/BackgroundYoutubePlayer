@@ -10,7 +10,7 @@
         android:minHeight="?android:attr/actionBarSize"
         android:background="?android:attr/colorPrimary"
         android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar" />
-    <SearchView
+    <android.support.v7.widget.SearchView
         android:id="@+id/songSearchView"
         android:layout_below="@id/toolbar"
         android:minWidth="25px"

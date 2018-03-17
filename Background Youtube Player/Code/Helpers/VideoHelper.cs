@@ -7,6 +7,7 @@ using Android.Widget;
 using System.Threading.Tasks;
 using YoutubeExtractor;
 using System.Net;
+using Android.Content;
 
 namespace Background_Youtube_Player.Code.Helpers
 {
@@ -29,12 +30,12 @@ namespace Background_Youtube_Player.Code.Helpers
             });
         }
 
-        public async Task<VideoInfo> ResolveDownloadUrls(string link, Android.Content.Context context)
+        public async Task<VideoInfo> ResolveDownloadUrls(string link, Context context)
         {
-            IEnumerable<VideoInfo> videosInfors = new List<VideoInfo>();
+            IEnumerable<VideoInfo> videosInfos = new List<VideoInfo>();
             try
             {
-                 videosInfors = await DownloadUrlResolver.GetDownloadUrlsAsync(link, true);
+                 videosInfos = await DownloadUrlResolver.GetDownloadUrlsAsync(link, false);
             }
             catch (Exception ex)
             {
@@ -43,16 +44,16 @@ namespace Background_Youtube_Player.Code.Helpers
                 Toast.MakeText(context, "Cannot play this video", ToastLength.Short);
             }
 
-            VideoInfo video = videosInfors.FirstOrDefault(infor => (infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3) && infor.Resolution == 144 );
+            VideoInfo video = videosInfos.FirstOrDefault(infor => (infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3) && infor.Resolution == 144 );
 
             if (video == null)
             {
-                video = videosInfors.FirstOrDefault(infor => (infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3) && infor.Resolution == 240);
+                video = videosInfos.FirstOrDefault(infor => (infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3) && infor.Resolution == 240);
             }
 
             if (video == null)
             {
-                video = videosInfors.FirstOrDefault(infor => infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3);
+                video = videosInfos.FirstOrDefault(infor => infor.AudioType == AudioType.Aac || infor.AudioType == AudioType.Mp3);
             }
 
             if (video != null)

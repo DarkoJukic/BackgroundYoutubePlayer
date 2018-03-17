@@ -7,19 +7,25 @@ using Android.Support.V7.App;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.V4.View;
+using Background_Youtube_Player.Code.Services;
+using YoutubeExtractor;
+using Android.Content;
 
 namespace Background_Youtube_Player
 {
     [Activity(Label = "BaseActivity")]
     public class BaseActivity : AppCompatActivity
     {
-
         protected DrawerLayout drawerLayout;
+
+
+        protected NotificationManager notificationManager;
+        protected Notification notification;
+        const int notificationId = 0;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
         }
 
         protected void NavigationView_NavigationItemSelected(object sender, NavigationView.NavigationItemSelectedEventArgs e)
@@ -29,18 +35,21 @@ namespace Background_Youtube_Player
             switch (e.MenuItem.ItemId)
             {
                 case Resource.Id.nav_home:
-                    Toast.MakeText(this, "", ToastLength.Short);
+                    StartActivity(typeof(HomeActivity));
+                    Finish();
                     break;
 
                 case Resource.Id.nav_favorites:
-                    Toast.MakeText(this, "", ToastLength.Short);
+                    StartActivity(typeof(FavoritesActivity));
+                    Finish();
                     break;
 
                 case Resource.Id.nav_settings:
                     StartActivity(typeof(SettingsActivity));
+                    Finish();
                     break;
-
             }
+
             drawerLayout.CloseDrawers();
         }
 
@@ -65,5 +74,23 @@ namespace Background_Youtube_Player
         }
 
 
+        protected void CreateNotification(VideoInfo video)
+        {
+            notificationManager = GetSystemService(NotificationService) as NotificationManager;
+
+            var intent = this.PackageManager.GetLaunchIntentForPackage(this.PackageName);
+            intent.AddFlags(ActivityFlags.SingleTop);
+
+            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.UpdateCurrent);
+
+            Notification.Builder builder = new Notification.Builder(this)
+            .SetContentTitle("Currently playing:")
+            .SetContentText(video.Title)
+            .SetSmallIcon(Resource.Drawable.ic_play_circle)
+            .SetContentIntent(pendingIntent);
+            notification = builder.Build();
+
+            notificationManager.Notify(notificationId, notification);
+        }
     }
 }

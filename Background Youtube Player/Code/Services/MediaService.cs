@@ -16,28 +16,50 @@ namespace Background_Youtube_Player.Code.Services
 {
     public class MediaService
     {
-        MediaPlayer player;
+        private static MediaPlayer _mediaPlayer;
 
-        public void CreateMediaPlayer()
+        private static Object lockObject = new Object();
+
+        private MediaService()
         {
-            if (player == null)
+        }
+
+        public static MediaPlayer MediaPlayer
+        {
+            get
             {
-                player = new MediaPlayer();
+                if (_mediaPlayer != null)
+                    return _mediaPlayer;
+                lock (lockObject)
+                {
+                    if (_mediaPlayer != null)
+                        return _mediaPlayer;
+                    else
+                    {
+                        _mediaPlayer = new MediaPlayer();
+                    }
+                    return _mediaPlayer;
+                }
             }
         }
 
-        public void StopMediaPlayer()
+        public static async Task Start(string DownloadUrl)
         {
-            player.Stop();
+            MediaPlayer.Reset();
+            await MediaPlayer.SetDataSourceAsync(DownloadUrl);
+            MediaPlayer.Prepare();
+            MediaPlayer.Start();
         }
 
-        public async Task StartPlayingSong(string DownloadUrl)
+        public static void Stop()
         {
-            player.Stop();
-            player.Reset();
-            await player.SetDataSourceAsync(DownloadUrl);
-            player.Prepare();
-            player.Start();
+            MediaPlayer.Stop();
         }
+
+        public static void Pause()
+        {
+            MediaPlayer.Pause();
+        }
+
     }
 }

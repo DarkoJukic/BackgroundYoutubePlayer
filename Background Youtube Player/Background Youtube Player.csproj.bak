@@ -17,7 +17,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -111,20 +111,19 @@
       <HintPath>..\packages\Xamarin.Android.Support.Vector.Drawable.25.3.1\lib\MonoAndroid70\Xamarin.Android.Support.Vector.Drawable.dll</HintPath>
     </Reference>
     <Reference Include="YoutubeExtractor">
-      <HintPath>..\packages\YoutubeExtractor\YoutubeExtractor.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\YoutubeExtractor-master\YoutubeExtractor\YoutubeExtractor\bin\Debug\Portable\YoutubeExtractor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Code\Data\FavoriteVideos.cs" />
     <Compile Include="Code\Helpers\VideoHelper.cs" />
-    <Compile Include="Code\Services\BackgroundService.cs" />
     <Compile Include="Code\Settings\AppSettings.cs" />
     <Compile Include="Code\Helpers\DisplayHelper.cs" />
     <Compile Include="Code\Services\DataService.cs" />
     <Compile Include="Code\Services\MediaService.cs" />
     <Compile Include="Activities\HomeActivity.cs" />
-    <Compile Include="Activities\FavoritesActivity.cs" />
+    <Compile Include="FavoritesActivity.cs" />
     <Compile Include="Resources\model\Youtube.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -134,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

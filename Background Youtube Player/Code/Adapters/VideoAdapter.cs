@@ -33,8 +33,6 @@ namespace Background_Youtube_Player
             get { return video[index]; }
         }
 
-
-
         public override int Count
         {
             get
@@ -42,8 +40,6 @@ namespace Background_Youtube_Player
                 return video.Count;
             }
         }
-
-
 
         public override long GetItemId(int position)
         {
@@ -53,8 +49,6 @@ namespace Background_Youtube_Player
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-
-            //throw new System.NotImplementedException();
             View view = convertView ?? inflater.Inflate(Resource.Layout.SongListItemLayout, parent, false);
 
             var item = video[position];
@@ -70,8 +64,6 @@ namespace Background_Youtube_Player
                 viewHolder.Thumbnail = view.FindViewById<ImageViewAsync>(Resource.Id.Thumbnail);
                 view.Tag = viewHolder;
             }
-
-
 
             viewHolder.Title.Text = item.snippet.title;
             viewHolder.ChannelTitle.Text = item.snippet.channelTitle;
@@ -94,7 +86,6 @@ namespace Background_Youtube_Player
 
 
         public class ViewHolder : Java.Lang.Object
-
         {
             public TextView Title { get; set; }
             public TextView ChannelTitle { get; set; }
