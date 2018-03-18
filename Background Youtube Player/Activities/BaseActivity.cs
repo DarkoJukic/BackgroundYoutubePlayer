@@ -21,15 +21,61 @@ namespace Background_Youtube_Player
         protected NavigationView navigationView;
         protected DrawerLayout drawerLayout;
 
-
         protected NotificationManager notificationManager;
         protected Notification notification;
         const int notificationId = 0;
+
+        Toast backToast;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
         }
+
+
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+            HandleButtonsVisibility();
+        }
+
+        public override void OnBackPressed()
+        {
+            if (backToast != null && backToast.View.WindowToken != null)
+            {
+                Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+            }
+            else
+            {
+                backToast = Toast.MakeText(ApplicationContext, " Press Back again to Exit ", ToastLength.Short);
+                backToast.Show();
+            }
+        }
+
+        private void HandleButtonsVisibility()
+        {
+            bottomToolbar.Visibility = ViewStates.Visible;
+
+            if (MediaService.IsPlaying())
+            {
+                bottomToolbar.Menu.FindItem(Resource.Id.menu_play).SetVisible(false);
+                bottomToolbar.Menu.FindItem(Resource.Id.menu_pause).SetVisible(true);
+                bottomToolbar.Menu.FindItem(Resource.Id.menu_stop).SetVisible(true);
+                return;
+            }
+            if (!MediaService.IsPlaying() && MediaService.MediaPlayer.CurrentPosition > 1)
+            {
+                bottomToolbar.Menu.FindItem(Resource.Id.menu_play).SetVisible(true);
+                bottomToolbar.Menu.FindItem(Resource.Id.menu_pause).SetVisible(false);
+                bottomToolbar.Menu.FindItem(Resource.Id.menu_stop).SetVisible(true);
+                return;
+            }
+            else
+            {
+                bottomToolbar.Visibility = ViewStates.Gone;
+            }
+        }
+
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
@@ -68,14 +114,43 @@ namespace Background_Youtube_Player
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            toolbar.InflateMenu(Resource.Menu.toolbar_menu);
-            toolbar.MenuItemClick += (sender, e) =>
+            bottomToolbar.InflateMenu(Resource.Menu.bottom_menu);
+
+            bottomToolbar.MenuItemClick += BottomToolbar_MenuItemClick;
+
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        private void BottomToolbar_MenuItemClick(object sender, Toolbar.MenuItemClickEventArgs e)
+        {
+            var item = e.Item;
+            switch (item.ItemId)
             {
-                if (notificationManager != null)
-                    notificationManager.CancelAll();
-                MediaService.Stop();
-            };
-            return base.OnPrepareOptionsMenu(menu);
+                case Resource.Id.menu_pause:
+                    {
+                        bottomToolbar.Menu.FindItem(Resource.Id.menu_play).SetVisible(true);
+                        e.Item.SetVisible(false);
+                        MediaService.Pause();
+                        break;
+                    }
+                case Resource.Id.menu_stop:
+                    {
+                        if (notificationManager != null)
+                            notificationManager.CancelAll();
+                        bottomToolbar.Visibility = ViewStates.Gone;
+                        MediaService.Stop();
+                        break;
+                    }
+                case Resource.Id.menu_play:
+                    {                       
+                        bottomToolbar.Menu.FindItem(Resource.Id.menu_pause).SetVisible(true);
+                        e.Item.SetVisible(false);
+                        MediaService.Continue();
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         protected void CreateNotification(VideoInfo video)

@@ -3,43 +3,45 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/actionBarSize"
-        android:background="?android:attr/colorPrimary"
-        android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar" />
-    <android.support.v7.widget.SearchView
-        android:id="@+id/songSearchView"
-        android:layout_below="@id/toolbar"
+  <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="?android:attr/actionBarSize"
+      android:background="?android:attr/colorPrimary"
+      android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar" />
+  <android.support.v7.widget.SearchView
+      android:id="@+id/songSearchView"
+      android:layout_below="@id/toolbar"
+      android:minWidth="25px"
+      android:minHeight="25px"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+  <android.support.v4.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:layout_below="@id/songSearchView"
+      android:id="@+id/DrawerLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+    <ListView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <android.support.v4.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_below="@id/songSearchView"
-        android:id="@+id/DrawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ListView
-            android:minWidth="25px"
-            android:minHeight="25px"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/resultsListView" />
-        <android.support.design.widget.NavigationView
-            android:id="@+id/NavigationView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:menu="@menu/drawer_menu" />
-    </android.support.v4.widget.DrawerLayout>
-<android.support.v7.widget.Toolbar
-  android:id="@+id/bottomToolbar"
-  android:layout_height="wrap_content"
-  android:layout_width="match_parent"
-      android:background="?android:attr/colorAccent" 
-  android:layout_alignParentBottom="true"
-  android:minHeight="?attr/actionBarSize" />
+        android:layout_height="match_parent"
+        android:id="@+id/resultsListView" />
+    <android.support.design.widget.NavigationView
+        android:id="@+id/NavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu" />
+  </android.support.v4.widget.DrawerLayout>
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/bottomToolbar"
+    android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"   
+    android:visibility="gone"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="?android:attr/colorAccent"
+    android:layout_alignParentBottom="true"
+    android:minHeight="?attr/actionBarSize" />
 </RelativeLayout>

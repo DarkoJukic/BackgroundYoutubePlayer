@@ -61,5 +61,14 @@ namespace Background_Youtube_Player.Code.Services
             MediaPlayer.Pause();
         }
 
+        public static void Continue()
+        {
+            MediaPlayer.Start();
+        }
+
+        public static bool IsPlaying()
+        {
+            return MediaPlayer.IsPlaying;
+        }
     }
 }

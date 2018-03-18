@@ -34,11 +34,6 @@ namespace Background_Youtube_Player
             await SearchForSong(this, null);
         }
 
-        protected override void OnRestart()
-        {
-            base.OnRestart();
-        }
-
         protected override void OnStop()
         {
             base.OnStop();
@@ -75,7 +70,7 @@ namespace Background_Youtube_Player
 
             dialog.Hide();
             songSearchView.ClearFocus();
-            songListView.Adapter = new VideoAdapter(Application.Context, result.items);
+            songListView.Adapter = new VideoAdapter(Application.Context, result.Items);
             songListView.ItemClick += async (s, events) => await StartPlayingSong(s, events);
 
             Window.SetSoftInputMode(SoftInput.StateHidden);
@@ -95,7 +90,7 @@ namespace Background_Youtube_Player
             var dialog = DisplayHelper.MakeProgressDialog(this, "Wait...");
             dialog.Show();
             var adapter = songListView.Adapter as VideoAdapter;
-            var id = adapter[e.Position].id.videoId;
+            var id = adapter[e.Position].Id.VideoId;
             string link = Constants.YoutubeBaseUrl + id;
 
 
@@ -116,6 +111,9 @@ namespace Background_Youtube_Player
         private async Task PlaySong(VideoInfo video)
         {
             await MediaService.Start(video.DownloadUrl);
+            bottomToolbar.Visibility = ViewStates.Visible;
+            bottomToolbar.Menu.FindItem(Resource.Id.menu_play).SetVisible(false);
+            bottomToolbar.Title = video.Title;
             CreateNotification(video);
         }
 

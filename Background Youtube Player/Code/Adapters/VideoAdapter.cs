@@ -65,12 +65,12 @@ namespace Background_Youtube_Player
                 view.Tag = viewHolder;
             }
 
-            viewHolder.Title.Text = item.snippet.title;
-            viewHolder.ChannelTitle.Text = item.snippet.channelTitle;
+            viewHolder.Title.Text = item.Snippet.Title;
+            viewHolder.ChannelTitle.Text = item.Snippet.ChannelTitle;
 
-            if (item.snippet.thumbnails.@default.url != null)
+            if (item.Snippet.Thumbnails.Default.Url != null)
             {
-                ImageService.Instance.LoadUrl(item.snippet.thumbnails.@default.url)
+                ImageService.Instance.LoadUrl(item.Snippet.Thumbnails.Default.Url)
                             .Retry(5, 200)
                             .Into(viewHolder.Thumbnail);
             }

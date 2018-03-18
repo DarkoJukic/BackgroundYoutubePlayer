@@ -6,65 +6,65 @@ namespace Background_Youtube_Player.Resources.Model
     {
         public class PageInfo
         {
-            public int totalResults { get; set; }
-            public int resultsPerPage { get; set; }
+            public int TotalResults { get; set; }
+            public int ResultsPerPage { get; set; }
         }
 
         public class Id
         {
-            public string kind { get; set; }
-            public string videoId { get; set; }
+            public string Kind { get; set; }
+            public string VideoId { get; set; }
         }
 
         public class Default
         {
-            public string url { get; set; }
+            public string Url { get; set; }
         }
 
         public class Medium
         {
-            public string url { get; set; }
+            public string Url { get; set; }
         }
 
         public class High
         {
-            public string url { get; set; }
+            public string Url { get; set; }
         }
 
         public class Thumbnails
         {
-            public Default @default { get; set; }
-            public Medium medium { get; set; }
-            public High high { get; set; }
+            public Default Default { get; set; }
+            public Medium Medium { get; set; }
+            public High High { get; set; }
         }
 
         public class Snippet
         {
-            public string publishedAt { get; set; }
-            public string channelId { get; set; }
-            public string title { get; set; }
-            public string description { get; set; }
-            public Thumbnails thumbnails { get; set; }
-            public string channelTitle { get; set; }
-            public string liveBroadcastContent { get; set; }
+            public string PublishedAt { get; set; }
+            public string ChannelId { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public Thumbnails Thumbnails { get; set; }
+            public string ChannelTitle { get; set; }
+            public string LiveBroadcastContent { get; set; }
         }
 
         public class Item
         {
-            public string kind { get; set; }
-            public string etag { get; set; }
-            public Id id { get; set; }
-            public Snippet snippet { get; set; }
+            public string Kind { get; set; }
+            public string Etag { get; set; }
+            public Id Id { get; set; }
+            public Snippet Snippet { get; set; }
         }
 
         public class RootObject
         {
-            public string kind { get; set; }
-            public string etag { get; set; }
-            public string nextPageToken { get; set; }
-            public string prevPageToken { get; set; }
-            public PageInfo pageInfo { get; set; }
-            public List<Item> items { get; set; }
+            public string Kind { get; set; }
+            public string Etag { get; set; }
+            public string NextPageToken { get; set; }
+            public string PrevPageToken { get; set; }
+            public PageInfo PageInfo { get; set; }
+            public List<Item> Items { get; set; }
         }
     }
 }
